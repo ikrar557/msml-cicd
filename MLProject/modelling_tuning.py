@@ -13,7 +13,7 @@ import json
 mlflow.set_tracking_uri("https://dagshub.com/ikrar557/mlsystem-dicoding.mlflow")
 mlflow.set_experiment("titanic_tuning_experiment")
 
-df = pd.read_csv("../preprocessing/titanic_preprocessing.csv")
+df = pd.read_csv("titanic_preprocessing.csv")
 
 X = df.drop(columns=["Survived"])
 y = df["Survived"]

@@ -13,7 +13,7 @@ mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 mlflow.set_experiment("titanic_experiment")
 
-df = pd.read_csv("../preprocessing/titanic_preprocessing.csv")
+df = pd.read_csv("titanic_preprocessing.csv")
 
 X = df.drop(columns=["Survived"])
 y = df["Survived"]
