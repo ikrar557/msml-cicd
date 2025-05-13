@@ -43,11 +43,11 @@ jobs:
               echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
               echo "Latest run_id: $RUN_ID"
 
-          - name: Upload ML Model Artifacts
+          - name: Upload ML Model Artifacts to 
             uses: actions/upload-artifact@v4
             with:
               name: ml-model-artifact
-              path: mlruns/0/${{ env.RUN_ID }}/artifacts/mode
+              path: mlruns/0/${{ env.RUN_ID }}/artifacts/model
 
           - name: Build Docker Model
             run: |
@@ -66,3 +66,19 @@ jobs:
           - name: Push Docker Image
             run: |
               docker push ${{ secrets.DOCKER_HUB_USERNAME }}/msml-dicoding:latest
+
+          - name: Login to GitHub Container Registry
+            uses: docker/login-action@v3
+            with:
+              registry: ghcr.io
+              username: ${{ github.actor }}
+              password: ${{ secrets.GITHUB_TOKEN }}
+
+          - name: Build and Tag Docker Image for GitHub Packages
+            run: |
+              mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "msml-dicoding"
+              docker tag msml-dicoding ghcr.io/${{ github.repository_owner }}/msml-dicoding:latest
+
+          - name: Push to GitHub Packages
+            run: |
+              docker push ghcr.io/${{ github.repository_owner }}/msml-dicoding:latest
