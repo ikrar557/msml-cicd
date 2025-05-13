@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   CSV_URL: "titanic_preprocessing.csv"
   TARGET_VAR: "Survived"
