@@ -31,7 +31,8 @@ jobs:
           - name: Install Dependencies
             run: |
               python -m pip install --upgrade pip
-              pip install mlflow dagshub
+              pip install mlflow dagshub seaborn matplotlib scikit-learn pandas numpy
+
           - name: Run MLFlow Project
             run: |
               mlflow run MLProject --env-manager=local
